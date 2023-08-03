@@ -1,18 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] EnemyDataContainerSO _enemyDataContainer;
+    [SerializeField] Transform _transform;
+
+    float _moveSpeed;
+
+    void OnValidate()
     {
-        
+        if (_transform == null) _transform = transform;
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        var enemyBody = Instantiate(_enemyDataContainer.Prefab, this.transform);
+        enemyBody.transform.localPosition = Vector3.zero;
+        _moveSpeed = _enemyDataContainer.RandomSpeed;
+    }
+
     void Update()
     {
-        
+        _transform.Translate(Time.deltaTime * _moveSpeed * Vector3.left);
     }
 }
